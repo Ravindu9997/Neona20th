@@ -1,0 +1,21 @@
+/* * This file sets up the Tailwind directives and imports the Google Fonts
+ * required by the application.
+ */
+
+@import "tailwindcss";
+/* * Import Google Fonts - MUST match the font families defined in the <style> 
+ * block within the App.jsx component for the theme to work correctly. 
+ */
+@import url('https://fonts.googleapis.com/css2?family=Monoton&family=Inter:wght@400;700&family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* Basic reset to ensure full height and smooth scrolling */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure smooth scrolling across the narrative sections */
+html {
+  scroll-behavior: smooth;
+}
