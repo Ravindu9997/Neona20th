@@ -96,10 +96,8 @@ const NarrativeSection = ({ item, index }) => {
 
   const isReversed = index % 2 !== 0;
   
-  // Dynamic height adjustment for mobile to prevent image cropping
-  const mobileHeightClass = item.aspect === 'portrait' 
-    ? 'h-[60vh]' // Taller container for portrait images on mobile
-    : 'h-[40vh]'; // Shorter container for landscape/square images on mobile
+  // FIX: Removed mobileHeightClass. We now use min-h-[50vh] to ensure the container 
+  // has vertical space, and rely on object-contain within w-full to fill the width.
 
   return (
     <div
@@ -111,16 +109,17 @@ const NarrativeSection = ({ item, index }) => {
                   border-b border-red-700`}
     >
       <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 max-w-5xl mx-auto z-10`}>
-        {/* Image Card - Adjusted for Mobile Viewport Height (vh) */}
+        {/* Image Card - Maximize width and use flex centering */}
         <div 
+          // FIX: Added flex utilities to center the image, and used min-h-[50vh] as a generous floor.
           className={`relative w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-red-500 transform transition-all duration-500 hover:scale-[1.02] hover:rotate-1 
-            ${mobileHeightClass} md:h-auto md:max-h-full`}
+            min-h-[50vh] flex items-center justify-center md:h-auto md:max-h-full`}
         >
           <img
             src={item.imgUrl}
             alt={item.alt || item.title}
-            // FIX: Changed object-cover (crops) to object-contain (fits entirely)
-            // Added bg-black to the image container to see the letterboxing on mobile
+            // w-full h-full object-contain ensures the entire image fits within the container 
+            // and uses the full width of the mobile screen.
             className="w-full h-full object-contain bg-black filter grayscale-[10%] contrast-110 saturate-120"
             // Fallback for missing local image
             onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/800x600/9ca3af/ffffff?text=Image+Missing" }}
@@ -318,21 +317,21 @@ const App = () => {
         
         <div className="relative z-10">
           <h1
-            // FIX: Reduced base text size from text-7xl to text-5xl for mobile
+            // Text sizing adjusted for mobile
             className="text-5xl sm:text-7xl md:text-9xl font-monoton tracking-tighter mb-4 text-red-500 animate-glitch"
             style={{ textShadow: '4px 4px #4b5563, 6px 6px #1f2937' }}
           >
             WARRANTY VOID
           </h1>
           <h2 
-            // FIX: Reduced base text size from text-3xl to text-2xl for mobile
+            // Text sizing adjusted for mobile
             className="text-2xl sm:text-3xl font-mono mb-8 text-gray-300 opacity-0 animate-fade-in-up delay-[700ms]"
             style={{ animationDelay: '700ms', textShadow: '2px 2px #000000ff' }}
           >
             NEONA IS OFFICIALLY EXPIRED @ 20
           </h2>
           <p 
-            // FIX: Reduced base text size from text-xl to text-lg for mobile
+            // Text sizing adjusted for mobile
             className="text-lg sm:text-xl font-serif leading-relaxed text-center italic text-gray-200 mt-8 opacity-0 animate-fade-in-up delay-[1000ms]"
             style={{ animationDelay: '1000ms', textShadow: '2px 2px #000000ff' }}
           >
