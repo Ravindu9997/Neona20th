@@ -7,9 +7,9 @@ const imageDataMap = [
   {
     filename: "skydive.png",
     title: "Neona the fearless",
-    description: "She always flys headfirst(literally), her bravery knows no bounds. Always on the look out for her next thrill ",
+    description: "She always flys headfirst (literally), her bravery knows no bounds. Always on the lookout for her next thrill.",
     aspect: "landscape",
-    alt: ""
+    alt: "Woman skydiving headfirst"
   },
   {
     filename: "badminton.png",
@@ -95,6 +95,11 @@ const NarrativeSection = ({ item, index }) => {
   const [ref, inView] = useInView({ threshold: threshold });
 
   const isReversed = index % 2 !== 0;
+  
+  // Dynamic height adjustment for mobile to prevent image cropping
+  const mobileHeightClass = item.aspect === 'portrait' 
+    ? 'h-[60vh]' // Taller container for portrait images on mobile
+    : 'h-[40vh]'; // Shorter container for landscape/square images on mobile
 
   return (
     <div
@@ -106,13 +111,16 @@ const NarrativeSection = ({ item, index }) => {
                   border-b border-red-700`}
     >
       <div className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-8 max-w-5xl mx-auto z-10`}>
-        {/* Image Card */}
-        <div className="relative w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-red-500 transform transition-all duration-500 hover:scale-[1.02] hover:rotate-1">
+        {/* Image Card - Adjusted for Mobile Viewport Height (vh) */}
+        <div 
+          className={`relative w-full md:w-1/2 rounded-xl overflow-hidden shadow-2xl border-4 border-red-500 transform transition-all duration-500 hover:scale-[1.02] hover:rotate-1 
+            ${mobileHeightClass} md:h-auto md:max-h-full`}
+        >
           <img
             src={item.imgUrl}
             alt={item.alt || item.title}
-            // Ensure images maintain aspect ratio and fill the space
-            className="w-full h-full object-cover aspect-[4/3] md:aspect-auto filter grayscale-[10%] contrast-110 saturate-120"
+            // Use w-full h-full object-cover to ensure the image fills the container dynamically
+            className="w-full h-full object-cover filter grayscale-[10%] contrast-110 saturate-120"
             // Fallback for missing local image
             onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/800x600/9ca3af/ffffff?text=Image+Missing" }}
           />
@@ -309,17 +317,24 @@ const App = () => {
         
         <div className="relative z-10">
           <h1
-            className="text-7xl sm:text-8xl md:text-9xl font-monoton tracking-tighter mb-4 text-red-500 animate-glitch"
+            // FIX: Reduced base text size from text-7xl to text-5xl for mobile
+            className="text-5xl sm:text-7xl md:text-9xl font-monoton tracking-tighter mb-4 text-red-500 animate-glitch"
             style={{ textShadow: '4px 4px #4b5563, 6px 6px #1f2937' }}
           >
             WARRANTY VOID
           </h1>
-          <h2 className="text-3xl sm:text-4xl font-mono mb-8 text-black-100 opacity-0 animate-fade-in-up delay-[700ms]"
-              style={{ animationDelay: '700ms', textShadow: '2px 2px #000000ff' }}>
+          <h2 
+            // FIX: Reduced base text size from text-3xl to text-2xl for mobile
+            className="text-2xl sm:text-3xl font-mono mb-8 text-gray-300 opacity-0 animate-fade-in-up delay-[700ms]"
+            style={{ animationDelay: '700ms', textShadow: '2px 2px #000000ff' }}
+          >
             NEONA IS OFFICIALLY EXPIRED @ 20
           </h2>
-          <p className="text-xl sm:text-2xl font-serif leading-relaxed text-center italic text-white-200 mt-8 opacity-0 animate-fade-in-up delay-[1000ms]"
-             style={{ animationDelay: '1000ms', textShadow: '2px 2px #000000ff' }}>
+          <p 
+            // FIX: Reduced base text size from text-xl to text-lg for mobile
+            className="text-lg sm:text-xl font-serif leading-relaxed text-center italic text-gray-200 mt-8 opacity-0 animate-fade-in-up delay-[1000ms]"
+            style={{ animationDelay: '1000ms', textShadow: '2px 2px #000000ff' }}
+          >
             Scroll down to see some of her great adventures
           </p>
 
