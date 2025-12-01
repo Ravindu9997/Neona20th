@@ -119,8 +119,9 @@ const NarrativeSection = ({ item, index }) => {
           <img
             src={item.imgUrl}
             alt={item.alt || item.title}
-            // Use w-full h-full object-cover to ensure the image fills the container dynamically
-            className="w-full h-full object-cover filter grayscale-[10%] contrast-110 saturate-120"
+            // FIX: Changed object-cover (crops) to object-contain (fits entirely)
+            // Added bg-black to the image container to see the letterboxing on mobile
+            className="w-full h-full object-contain bg-black filter grayscale-[10%] contrast-110 saturate-120"
             // Fallback for missing local image
             onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/800x600/9ca3af/ffffff?text=Image+Missing" }}
           />
@@ -140,7 +141,7 @@ const NarrativeSection = ({ item, index }) => {
         </div>
       </div>
       {/* Glitch overlay background pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,0,0,0.1) 1px, rgba(255,0,0,0.1) 2px)', backgroundSize: '100% 4px', animation: 'glitch-line 0.5s infinite alternate' }}></div>
+      <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,0,0,0.1) 1px, rgba(255,0,0,0.1) 2px)', backgroundSize: '100% 4px', animation: 'glitch-line.5s infinite alternate' }}></div>
     </div>
   );
 };
